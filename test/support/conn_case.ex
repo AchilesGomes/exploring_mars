@@ -22,7 +22,6 @@ defmodule ExploringMarsWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import ExploringMarsWeb.ConnCase
-      import ExploringMars.Factory
 
       alias ExploringMarsWeb.Router.Helpers, as: Routes
 

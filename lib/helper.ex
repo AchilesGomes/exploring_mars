@@ -1,5 +1,6 @@
 defmodule ExploringMars.Helper do
 
+  @spec handle_result({{integer(), integer()}, binary()}) :: %{erro: binary()} | %{x: integer(), y: integer(), face: binary()}
   def handle_result({values, face}) do
     case values do
       {x, _} when x > 5 or x < 0 ->

@@ -1,12 +1,11 @@
 defmodule ExploringMarsWeb.ProbeController do
   use ExploringMarsWeb, :controller
 
-  def create(conn, %{}) do
-    send_resp(conn, :created, Jason.encode!(%{response: "Sonda inicializada!"}))
+  def reset(conn, %{}) do
+    send_resp(conn, :ok, Jason.encode!(%{response: "Probe position reseted"}))
   end
-  def create(conn, _), do: send_resp(conn, :bad_request, Jason.encode!(%{response: "Ooopppss, os objetos desse JSON não corretos"}))
 
-  def move(conn, %{"movimentos" => coordenadas}) do
+  def send_probe_to_endpoint(conn, %{"movimentos" => coordenadas}) do
     result =
       coordenadas
       |> ExploringMars.process()

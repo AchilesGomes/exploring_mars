@@ -8,8 +8,8 @@ defmodule ExploringMarsWeb.Router do
   scope "/api", ExploringMarsWeb do
     pipe_through :api
 
-    post "/create", ProbeController, :create
-    post "/move", ProbeController, :move
+    post "/send_probe_to_endpoint", ProbeController, :send_probe_to_endpoint
+    post "/reset", ProbeController, :reset
   end
 
 end
