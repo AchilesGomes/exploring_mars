@@ -23,6 +23,7 @@ defmodule ExploringMarsWeb do
 
       import Plug.Conn
       import ExploringMarsWeb.Gettext
+      import ExploringMars.Helper
       alias ExploringMarsWeb.Router.Helpers, as: Routes
     end
   end

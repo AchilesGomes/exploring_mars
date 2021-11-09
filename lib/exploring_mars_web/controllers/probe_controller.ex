@@ -1,7 +1,6 @@
 defmodule ExploringMarsWeb.ProbeController do
   use ExploringMarsWeb, :controller
 
-  # def create(conn, %{"movimentos" => coordenadas}) do
   def create(conn, %{}) do
     send_resp(conn, :created, Jason.encode!(%{response: "Sonda inicializada!"}))
   end
