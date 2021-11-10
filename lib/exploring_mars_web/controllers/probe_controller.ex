@@ -1,16 +1,32 @@
 defmodule ExploringMarsWeb.ProbeController do
   use ExploringMarsWeb, :controller
 
-  def reset(conn, %{}) do
-    send_resp(conn, :ok, Jason.encode!(%{response: "Probe position reseted"}))
+  alias ExploringMars.GetProbeData
+
+  def execute(conn, %{"movimentos" => coordenadas}) do
+    with {:ok, data} <- ExploringMars.execute_commands(coordenadas) do
+      conn
+      |> put_status(:ok)
+      |> render("show.json", %{probe: data})
+    else
+      {:error, error} ->
+        conn
+        |> put_status(:ok)
+        |> render("error.json", %{erro: error})
+    end
   end
 
-  def send_probe_to_endpoint(conn, %{"movimentos" => coordenadas}) do
-    result =
-      coordenadas
-      |> ExploringMars.process()
-      |> handle_result()
+  def get_position(conn, _) do
+    data = GetProbeData.get()
 
-    send_resp(conn, :ok, Jason.encode!(result))
+    conn
+    |> put_status(:ok)
+    |> render("show.json", %{probe: data})
+  end
+
+  def reset(conn, %{}) do
+    GetProbeData.reset()
+
+    send_resp(conn, :no_content, "")
   end
 end

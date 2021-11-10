@@ -1,57 +1,79 @@
 defmodule ExploringMars do
 
-  @directions ~w[C D B E]
+  alias ExploringMars.GetProbeData
 
   @spec generate_matrix(list()) :: list()
   def generate_matrix([x, y] = z) when is_list(z) do
     for i <- x..0, do: for j <- 0..y, do: {j, i}
   end
 
-  @spec process(map()) :: tuple()
-  def process(coords) do
-    search(coords, "D", {0, 0})
+  @spec execute_commands(list()) :: {{integer(), integer()}, binary()} | {:error, binary()}
+  def execute_commands(commands) when is_list(commands) do
+    :global.set_lock({%{user: "achiles", id: 1}, {:id, 1}})
+
+    commands
+    |> Enum.with_index()
+    |> Enum.map_reduce(GetProbeData.get(), fn {command, idx}, current_state ->
+      command
+      |> try_command(idx, current_state)
+      |> case do
+        {:ok, state} ->
+          {command, state}
+
+        {:error, error} ->
+          throw(error)
+      end
+    end)
+    |> execute_command()
+
+    {:ok, GetProbeData.get()}
+  catch
+    error -> {:error, error}
+  after
+    :global.del_lock({%{user: "achiles", id: 1}, {:id, 1}})
   end
 
-  defp search(cmds, direction, initial_position) do
-    do_search(cmds, direction, initial_position, [])
+  defp try_command(command, _idx, {coordinates, current_direction}) when command in ~w[GE GD] do
+    new_direction =
+      case {current_direction, command} do
+        {"C", "GE"} -> "E"
+        {"C", "GD"} -> "D"
+        {"D", "GE"} -> "C"
+        {"D", "GD"} -> "B"
+        {"B", "GE"} -> "D"
+        {"B", "GD"} -> "E"
+        {"E", "GE"} -> "B"
+        {"E", "GD"} -> "C"
+      end
+
+    {:ok, {coordinates, new_direction}}
   end
 
-  defp do_search([], _direction, _position, sum) do
-    sum
+  defp try_command("M", idx, {{x, y}, current_direction}) do()
+    current_direction
+    |> case do
+      "C" -> {{x, y + 1}, "C"}
+      "D" -> {{x + 1, y}, "D"}
+      "B" -> {{x, y - 1}, "B"}
+      "E" -> {{x - 1, y}, "E"}
+    end
+    |> handle_result(idx)
   end
-  defp do_search(cmds, direction, position, sum) when is_list(cmds) do
-    [cmd | cmds] = cmds
-    new_direction = find_direction(direction, cmd)
-    new_position = move(position, new_direction, cmd)
-    sum = {new_position, new_direction}
-    do_search(cmds, new_direction, new_position, sum)
-  end
-  defp do_search([_h | t], direction, position, sum) do
-    do_search(t, direction, position, sum)
-  end
-  defp do_search(_, _, _, _), do: :error
 
-  defp find_direction(direction, coord) when direction in(@directions) and coord in(~w[GE GD]) do
-    case {direction, coord} do
-      {"C", "GE"} -> "E"
-      {"C", "GD"} -> "D"
-      {"D", "GE"} -> "C"
-      {"D", "GD"} -> "B"
-      {"B", "GE"} -> "D"
-      {"B", "GD"} -> "E"
-      {"E", "GE"} -> "B"
-      {"E", "GD"} -> "C"
+  defp execute_command({command, state}) do
+    ExploringMars.GetProbeData.update(state)
+  end
+
+  defp handle_result({values, face} = state, idx) do
+    case values do
+      {x, _} when x > 4 or x < 0 ->
+        {:error, "Um movimento inválido foi detectado no comando #{idx + 1} do eixo X, a posição de destino era #{inspect(state)}."}
+
+      {_, y} when y > 4 or y < 0 ->
+        {:error, "Um movimento inválido foi detectado no comando #{idx + 1} do eixo Y, a posição de destino era #{inspect(state)}."}
+
+      _ ->
+       {:ok, state}
     end
   end
-  defp find_direction(direction, _), do: direction
-
-  defp move({x, y}, new_direction, "M") when new_direction in(@directions) do
-    case new_direction do
-      "C" -> {x, y + 1}
-      "D" -> {x + 1, y}
-      "B" -> {x, y - 1}
-      "E" -> {x - 1, y}
-    end
-  end
-  defp move({x, y}, _, _), do: {x, y}
 end

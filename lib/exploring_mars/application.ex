@@ -4,7 +4,8 @@ defmodule ExploringMars.Application do
   def start(_type, _args) do
     children = [
       {Phoenix.PubSub, name: ExploringMars.PubSub},
-      ExploringMarsWeb.Endpoint
+      ExploringMarsWeb.Endpoint,
+      {ExploringMars.GetProbeData, name: ExploringMars.GetProbeData}
     ]
 
     opts = [strategy: :one_for_one, name: ExploringMars.Supervisor]
