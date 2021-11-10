@@ -44,8 +44,6 @@ defmodule ExploringMars do
   end
 
   defp try_command("M", idx, {{x, y}, current_direction}) do
-    nil
-
     current_direction
     |> case do
       "C" -> {{x, y + 1}, "C"}
