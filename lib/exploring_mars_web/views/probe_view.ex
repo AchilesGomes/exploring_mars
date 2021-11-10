@@ -12,8 +12,4 @@ defmodule ExploringMarsWeb.ProbeView do
       face: face
     }
   end
-
-  def render("error.json", %{erro: erro}) do
-    %{erro: erro}
-  end
 end
