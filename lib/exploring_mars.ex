@@ -67,10 +67,10 @@ defmodule ExploringMars do
   defp handle_result({values, face} = state, idx) do
     case values do
       {x, _} when x > 4 or x < 0 ->
-        {:error, "Um movimento inválido foi detectado no comando #{idx + 1} do eixo X, a posição de destino era #{inspect(state)}."}
+        {:error, "Um movimento inválido foi detectado no comando #{idx + 1} do eixo X, a posição de destino era eixo x: #{values.x} e eixo y: #{values.x} com a face para #{face}."}
 
       {_, y} when y > 4 or y < 0 ->
-        {:error, "Um movimento inválido foi detectado no comando #{idx + 1} do eixo Y, a posição de destino era #{inspect(state)}."}
+        {:error, "Um movimento inválido foi detectado no comando #{idx + 1} do eixo Y, a posição de destino era eixo x: #{values.x} e eixo y: #{values.x} com a face para #{face}."}
 
       _ ->
        {:ok, state}

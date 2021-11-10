@@ -1,0 +1,201 @@
+{
+	"info": {
+		"_postman_id": "50f0f104-e680-41f1-baa3-e0217fe774f2",
+		"name": "exploring_mars",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "heroku",
+			"item": [
+				{
+					"name": "Obter posição da sonda Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dry-depths-22827.herokuapp.com/api/v1/get_position",
+							"protocol": "https",
+							"host": [
+								"dry-depths-22827",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"get_position"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Executar comandos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"movimentos\": [\"GE\", \"M\", \"M\", \"M\", \"GD\", \"M\", \"M\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dry-depths-22827.herokuapp.com/api/v1/execute",
+							"protocol": "https",
+							"host": [
+								"dry-depths-22827",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"execute"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Executar comando",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"movimentos\": [\"GE\", \"M\", \"M\", \"M\", \"GD\", \"M\", \"M\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dry-depths-22827.herokuapp.com/api/v1/execute",
+							"protocol": "https",
+							"host": [
+								"dry-depths-22827",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"execute"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Resetar sonda",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dry-depths-22827.herokuapp.com/api/v1/reset",
+							"protocol": "https",
+							"host": [
+								"dry-depths-22827",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reset"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Obter posição da sonda",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/v1/get_position",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"v1",
+						"get_position"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Executar comados",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"movimentos\": [\"GE\", \"M\", \"M\", \"M\", \"GD\", \"M\", \"M\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/v1/execute",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"v1",
+						"execute"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Resetar spnda",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/v1/reset",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"v1",
+						"reset"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
