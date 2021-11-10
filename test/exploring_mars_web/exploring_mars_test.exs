@@ -41,5 +41,13 @@ defmodule ExploringMarsTest do
 
       assert message =~ "Um movimento inválido foi detectado no comando 2 do eixo Y"
     end
+
+    test "handle error when commands is malformed" do
+      GetProbeData.reset()
+
+      {error, message} = ExploringMars.execute_commands("M")
+
+      assert message =~ "Comando(s) inválido(s), por gentileza consulte a documentação."
+    end
   end
 end

@@ -12,4 +12,8 @@ defmodule ExploringMarsWeb.ErrorViewTest do
     assert render(ExploringMarsWeb.ErrorView, "500.json", []) ==
              %{errors: %{detail: "Internal Server Error"}}
   end
+
+  test "renders errors" do
+    assert render(ExploringMarsWeb.ErrorView, "error.json", %{erro: "error"}) == %{erro: "error"}
+  end
 end

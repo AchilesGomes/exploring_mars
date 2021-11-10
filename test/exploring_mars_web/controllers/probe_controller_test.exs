@@ -111,6 +111,23 @@ defmodule ExploringMarsWeb.ProbeControllerTest do
                  "Um movimento inválido foi detectado no comando 2 do eixo Y, a posição de destino era eixo x: 0 e eixo y: -1 com a face para B."
              }
     end
+
+    test "throw error when JSON is malformed", %{conn: conn} do
+      conn =
+        conn
+        |> put_resp_content_type("application/json")
+        |> post(Routes.probe_path(conn, :execute), %{
+          "movimento" => ["GD", "M", "M"]
+        })
+
+      body = json_response(conn, 200)
+
+      assert conn.status == 200
+
+      assert body == %{
+               "erro" => "JSON malformado, por gentileza consulte a documentação."
+             }
+    end
   end
 
   describe "reset/2" do

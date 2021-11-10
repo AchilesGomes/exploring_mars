@@ -27,6 +27,9 @@ defmodule ExploringMars do
     :global.del_lock({__MODULE__, 1})
   end
 
+  def execute_commands(_),
+    do: {:error, "Comando(s) inválido(s), por gentileza consulte a documentação."}
+
   defp try_command(command, _idx, {coordinates, current_direction}) when command in ~w[GE GD] do
     new_direction =
       case {current_direction, command} do
