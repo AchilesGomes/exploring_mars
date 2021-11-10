@@ -3,6 +3,10 @@ defmodule ExploringMarsWeb.ProbeControllerTest do
 
   describe "get_positin/2" do
     test "get a current position from probe", %{conn: conn} do
+      conn
+      |> put_resp_content_type("application/json")
+      |> post(Routes.probe_path(conn, :reset), %{})
+
       conn =
         conn
         |> put_resp_content_type("application/json")
@@ -11,7 +15,7 @@ defmodule ExploringMarsWeb.ProbeControllerTest do
       body = json_response(conn, 200)
 
       assert conn.status == 200
-      assert body == %{"data" => %{"face" => "D", "x" => 0, "y" => 0}}
+      assert body == %{"face" => "D", "x" => 0, "y" => 0}
     end
   end
 
@@ -28,10 +32,10 @@ defmodule ExploringMarsWeb.ProbeControllerTest do
           "movimentos" => ["GE", "M", "M", "M", "GD", "M", "M"]
         })
 
-      body = json_response(conn, 200)
+      body = json_response(conn, 201)
 
-      assert conn.status == 200
-      assert body == %{"data" => %{"face" => "D","x" => 2,"y" => 3}}
+      assert conn.status == 201
+      assert body == %{"face" => "D","x" => 2,"y" => 3}
     end
 
     test "execute commands when data is valid in a multiple request without reset", %{conn: conn} do
@@ -46,10 +50,10 @@ defmodule ExploringMarsWeb.ProbeControllerTest do
           "movimentos" => ["GE", "M", "M", "M", "GD", "M", "M"]
         })
 
-      body = json_response(response, 200)
+      body = json_response(response, 201)
 
-      assert response.status == 200
-      assert body == %{"data" => %{"face" => "D","x" => 2,"y" => 3}}
+      assert response.status == 201
+      assert body == %{"face" => "D","x" => 2,"y" => 3}
 
       response_two =
         conn
@@ -58,10 +62,10 @@ defmodule ExploringMarsWeb.ProbeControllerTest do
           "movimentos" => ["M", "M", "GD", "M"]
         })
 
-      body = json_response(response_two, 200)
+      body = json_response(response_two, 201)
 
-      assert response_two.status == 200
-      assert body == %{"data" => %{"face" => "B","x" => 4,"y" => 2}}
+      assert response_two.status == 201
+      assert body == %{"face" => "B","x" => 4,"y" => 2}
     end
 
     test "execute commands when data from axis X is invalid", %{conn: conn} do

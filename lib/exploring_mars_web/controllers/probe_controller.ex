@@ -6,7 +6,7 @@ defmodule ExploringMarsWeb.ProbeController do
   def execute(conn, %{"movimentos" => coordenadas}) do
     with {:ok, data} <- ExploringMars.execute_commands(coordenadas) do
       conn
-      |> put_status(:ok)
+      |> put_status(:created)
       |> render("show.json", %{probe: data})
     else
       {:error, error} ->

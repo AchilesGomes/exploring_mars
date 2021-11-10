@@ -11,7 +11,7 @@ defmodule ExploringMarsWeb.Router do
     scope "/v1" do
       get "/get_position", ProbeController, :get_position
       post "/execute", ProbeController, :execute
-      post "/reset", ProbeController, :reset
+      delete "/reset", ProbeController, :reset
     end
   end
 end
