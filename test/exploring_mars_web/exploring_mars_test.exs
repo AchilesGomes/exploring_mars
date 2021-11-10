@@ -14,7 +14,8 @@ defmodule ExploringMarsTest do
     test "executes commands" do
       GetProbeData.reset()
 
-      assert ExploringMars.execute_commands(["GE", "M", "M", "M", "GD", "M", "M"]) == {:ok, {{2, 3}, "D"}}
+      assert ExploringMars.execute_commands(["GE", "M", "M", "M", "GD", "M", "M"]) ==
+               {:ok, {{2, 3}, "D"}}
     end
 
     test "executes commands separately in a multiple executions" do

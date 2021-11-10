@@ -1,5 +1,4 @@
 defmodule ExploringMars do
-
   alias ExploringMars.GetProbeData
 
   @spec execute_commands(list()) :: {{integer(), integer()}, binary()} | {:error, binary()}
@@ -44,7 +43,9 @@ defmodule ExploringMars do
     {:ok, {coordinates, new_direction}}
   end
 
-  defp try_command("M", idx, {{x, y}, current_direction}) do()
+  defp try_command("M", idx, {{x, y}, current_direction}) do
+    nil
+
     current_direction
     |> case do
       "C" -> {{x, y + 1}, "C"}
@@ -62,13 +63,15 @@ defmodule ExploringMars do
   defp handle_result({{x, y}, face} = state, idx) do
     case {x, y} do
       {x, _} when x > 4 or x < 0 ->
-        {:error, "Um movimento inválido foi detectado no comando #{idx + 1} do eixo X, a posição de destino era eixo x: #{x} e eixo y: #{y} com a face para #{face}."}
+        {:error,
+         "Um movimento inválido foi detectado no comando #{idx + 1} do eixo X, a posição de destino era eixo x: #{x} e eixo y: #{y} com a face para #{face}."}
 
       {_, y} when y > 4 or y < 0 ->
-        {:error, "Um movimento inválido foi detectado no comando #{idx + 1} do eixo Y, a posição de destino era eixo x: #{x} e eixo y: #{y} com a face para #{face}."}
+        {:error,
+         "Um movimento inválido foi detectado no comando #{idx + 1} do eixo Y, a posição de destino era eixo x: #{x} e eixo y: #{y} com a face para #{face}."}
 
       _ ->
-       {:ok, state}
+        {:ok, state}
     end
   end
 end
